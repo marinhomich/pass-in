@@ -6,7 +6,6 @@ import com.marinhomich.passin.domain.event.exceptions.EventNotFoundException;
 import com.marinhomich.passin.dto.event.EventIdDTO;
 import com.marinhomich.passin.dto.event.EventRequestDTO;
 import com.marinhomich.passin.dto.event.EventRespondeDTO;
-import com.marinhomich.passin.repositories.AttendeeRepository;
 import com.marinhomich.passin.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventService {
     private final EventRepository eventRepository;
-    private final AttendeeRepository attendeeRepository;
+    private final AttendeeService attendeeService;
 
     public EventRespondeDTO getEventDetail(String eventId){
         Event event = this.eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
-        List<Attendee> attendeeList = this.attendeeRepository.findByEventId(eventId);
+        List<Attendee> attendeeList = this.attendeeService.getAllAttendeesFromEvent(eventId);
         return new EventRespondeDTO(event, attendeeList.size());
     }
 

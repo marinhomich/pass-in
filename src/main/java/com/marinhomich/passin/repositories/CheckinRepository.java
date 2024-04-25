@@ -1,7 +1,11 @@
 package com.marinhomich.passin.repositories;
 
-import com.marinhomich.passin.domain.checkin.Checkin;
+import com.marinhomich.passin.domain.checkin.CheckIn;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CheckinRepository extends JpaRepository<Checkin, Integer> {
+import java.util.Optional;
+
+public interface CheckinRepository extends JpaRepository<CheckIn, Integer> {
+
+    Optional<CheckIn> findByAttendId(String attendeeId);
 }
