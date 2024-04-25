@@ -2,6 +2,7 @@ package com.marinhomich.passin.services;
 
 import com.marinhomich.passin.domain.attendee.Attendee;
 import com.marinhomich.passin.domain.event.Event;
+import com.marinhomich.passin.domain.event.exceptions.EventNotFoundException;
 import com.marinhomich.passin.dto.event.EventIdDTO;
 import com.marinhomich.passin.dto.event.EventRequestDTO;
 import com.marinhomich.passin.dto.event.EventRespondeDTO;
@@ -20,7 +21,7 @@ public class EventService {
     private final AttendeeRepository attendeeRepository;
 
     public EventRespondeDTO getEventDetail(String eventId){
-        Event event = this.eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found with ID: " + eventId));
+        Event event = this.eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
         List<Attendee> attendeeList = this.attendeeRepository.findByEventId(eventId);
         return new EventRespondeDTO(event, attendeeList.size());
     }
@@ -41,7 +42,7 @@ public class EventService {
         String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
 
         return normalized
-                .replaceAll("[\\p{inCOMBINING_DIACRITICAL_MARKS}]", "")
+                .replaceAll("[\\p{InCOMBINING_DIACRITICAL_MARKS}]", "")
                 .replaceAll("[^\\w\\s]]", "")
                 .replaceAll("\\s+", "-")
                 .toLowerCase();
