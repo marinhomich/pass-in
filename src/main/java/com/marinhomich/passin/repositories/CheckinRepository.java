@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface CheckinRepository extends JpaRepository<CheckIn, Integer> {
 
-    Optional<CheckIn> findByAttendId(String attendeeId);
+    Optional<CheckIn> findByAttendeeId(String attendeeId);
 }
